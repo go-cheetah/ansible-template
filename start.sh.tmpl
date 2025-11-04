@@ -11,6 +11,9 @@ source ${SCRIPT_DIR}/core/common.sh
 #Load env file
 source ${SCRIPT_DIR}/config/config.sh
 
+#load parm file
+source ${SCRIPT_DIR}/config/parm.sh
+
 #Load user config 
 source ${SCRIPT_DIR}/config/config.ini
 
@@ -34,6 +37,8 @@ function main(){
     start_time=$(date +%s)
     check_config
 
+    parm "$@"
+
     log_info "create inventory."
     gen_inventory_info
     
@@ -45,4 +50,4 @@ function main(){
     log_info "excute time $execution_time second."
 }
 
-main
+main "$@"

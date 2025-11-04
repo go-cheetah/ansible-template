@@ -1,0 +1,54 @@
+#!/bin/bash
+
+function analyze(){
+    PARSED_ARGUMENTS=$(getopt -o H \
+    --long help,  -- "$@")
+    check_error $? "Wrong parameter[$*], please check!!!"
+
+    # if [ $# == 0 ]; then
+    #     usage
+    #     exit 0
+    # fi
+
+    eval set -- "$PARSED_ARGUMENTS"
+    while true; do
+        case "$1" in
+            -h | --help)
+                usage
+                exit 0
+                ;;
+            --)
+                shift
+                break
+                ;;
+            *)
+                log_err "Unexpected option: $1 - this should not happen."
+                usage
+                exit 1
+                ;;
+        esac
+    done
+    log_info "PARSED_ARGUMENTS is $PARSED_ARGUMENTS"
+    if [ $# -gt 0 ]; then
+        log_err "Wrong parameter $1, please check!!!"
+        exit 1
+    fi
+}
+
+function parm(){
+    analyze $@
+}
+
+function usage() {
+cat << eof
+Options:
+    -H, --help: Show help
+
+Examples:
+1. Show help
+  $0 --help
+
+Note: 
+eof
+}
+
